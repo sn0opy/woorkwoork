@@ -2,22 +2,26 @@
 
 namespace controllers;
 
-class controller extends \F3instance {
+class controller {
+	protected $framework;
+	
 	public function __construct() {
-		if(!file_exists($this->get('dbfile'))) {
-			$this->get('DB')->sql('	CREATE TABLE IF NOT EXISTS "entries" (
-									  "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-									  "date" integer NOT NULL,
-									  "starttime" integer NOT NULL,
-									  "endtime" integer NOT NULL,
-									  "added" integer NOT NULL
-									);');
+		$this->framework = \Base::instance();
+		$f3 = $this->framework;
+		
+		if(file_exists('setup.sql')) {
+			$db = new \DB\SQL('sqlite:' . $f3->get('dbfile'));			
+			$db->exec(explode(';', $f3->read('setup.sql')));
+			rename('setup.sql', 'setup_done.sql');
 		}
+		
+		$f3->set('db', new \DB\SQL('sqlite:'.$f3->get('dbfile')));
 	}
 	
 	protected function tpserve() {
-		$this->set('entries', \controllers\entries::getEntries());
+		$entries = new \controllers\entries;
+		$tpl = new \Template;
 		
-		echo \Template::serve('main.tpl.php');
+		echo $tpl->render('main.tpl.php');
 	}
 }

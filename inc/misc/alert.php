@@ -2,13 +2,16 @@
 
 namespace misc;
 
-class alert extends \F3instance {
+class alert {	
 	static public function set($msg, $type = 'success') {
-		\F3::set('SESSION.alert.msg', $msg);
-		\F3::set('SESSION.alert.type', $type);
+		$f3 = \Base::instance();
+		
+		$f3->set('SESSION.alert.msg', $msg);
+		$f3->set('SESSION.alert.type', $type);
 	}
 	
 	static public function clear() {
-		\F3::clear('SESSION.alert');
+		$f3 = \Base::instance();
+		$f3->clear('SESSION.alert');
 	}
 }

@@ -26,7 +26,7 @@
 			<div class="span8">
 				<h1><img src="{{@BASE}}/assets/img/peon.jpg" alt="" /> Woork woork...</h1>
 				<F3:include href="alert.tpl.php" />
-				<F3:include href="@subtemplate" />
+				<F3:include href="{{@subtemplate}}" />
 			</div>
 			<div class="span2"></div>
 		</div>
